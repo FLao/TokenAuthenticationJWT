@@ -67,7 +67,6 @@ app.get('/', function(request, response) {
 });
 
 // API ROUTES -------------------
-// we'll get to these in a second
 
 // get an instance of the router for api routes
 var apiRoutes = express.Router(); 
@@ -112,7 +111,37 @@ apiRoutes.post('/authenticate', function(request, response) {
     });
 });
     	
-// TODO: route middleware to verify a token
+// route middleware to verify a token
+apiRoutes.use(function(request, response, next) {
+    // check header or url parameters or post parameters for token
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
+
+    // decode token
+    if(token) {
+        console.log("Token: " + token);
+        // verifies secret and checks exp
+        jwt.verify(token, app.get('superSecret'), function(error, decoded) {      
+            if (error) {
+                return response.json({ success: false, message: 'Failed to authenticate token.' });    
+            } 
+
+            else {
+                // if everything is good, save to request for use in other routes
+                request.decoded = decoded;    
+                next();
+            }
+        });
+    } 
+
+    else {
+        // if there is no token
+        // return an error
+        return response.status(403).send({ 
+            success: false, 
+            message: 'No token provided.' 
+        });
+    }
+});
 
 // route to show a random message (GET http://localhost:8080/api/)
 apiRoutes.get('/', function(request, response) {
@@ -121,7 +150,6 @@ apiRoutes.get('/', function(request, response) {
 
 // route to return all users (GET http://localhost:8080/api/users)
 apiRoutes.get('/users', function(request, response) {
-
   	db.User.findAll({}).then(function(dbUser) {
     	response.json(dbUser);
   	});
