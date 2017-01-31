@@ -2,8 +2,9 @@
 <html>
 <body>
 
-<form action="/" method="POST">
-	Username: <input type="text" name="user"><br>
+<h1>Login with your username and password!</h1>
+<form action="/api/authenticate" method="POST">
+	Username: <input type="text" name="name"><br>
 	Password: <input type="password" name="password"><br>
 	<button type="submit">Submit</button>
 </form>

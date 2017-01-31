@@ -25,7 +25,7 @@ router.get('/setup', function(request, response) {
     });
 });
 */
-router.get('/', function(request, response) {
+router.post('/', function(request, response) {
   	db.User.create({
     	name: request.body.name,
       	password: request.body.password
