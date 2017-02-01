@@ -13,6 +13,8 @@ var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var db   = require('./models'); // get our sequelize model
 
+var length;
+
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,6 +52,8 @@ app.post('/create', function(request, response) {
         name: request.body.name,
         password: request.body.password
     }).then(function(dbUser) {
+        console.log(dbUser.name.length);
+        length = dbUser.name.length;
         // We have access to the new user as an argument inside of the callback function
         response.json(dbUser);
     });
@@ -59,6 +63,7 @@ app.post('/create', function(request, response) {
 app.get('/login', function(request, response) {
     response.sendFile(path.join(__dirname + "/views/login.html"));
 });
+
 
 // API ROUTES -------------------
 
@@ -97,11 +102,12 @@ apiRoutes.post('/authenticate', function(request, response) {
         });
       
         // return the information including token as JSON
-        response.json({
-            success: true,
-            message: 'Enjoy your token!',
-            token: token
-        });
+        // response.json({
+        //     success: true,
+        //     message: 'Enjoy your token!',
+        //     token: token
+        // });
+        response.redirect('/api/users?token=' + token);
     });
 });
         
@@ -121,7 +127,8 @@ apiRoutes.use(function(request, response, next) {
 
             else {
                 // if everything is good, save to request for use in other routes
-                request.decoded = decoded;    
+                request.decoded = decoded; 
+                request.token = token;   
                 next();
             }
         });
@@ -151,7 +158,32 @@ apiRoutes.get('/users', function(request, response) {
 
 // apply the routes to our application with the prefix /api
 app.use('/api', apiRoutes);
+/*
+// tests
+var chai = require("chai");
+var sut = function getNameLength(length) {
+    if(length >= 6)
+        return "success";
+    else
+        return "name needs to be at least six characters long";
+};
 
+var expect = chai.expect;
+
+describe("Login test cases", function() {
+    it("should let the user enter their name with a minimum length of 6", function () {
+        // Arrange
+        var expected = "success"
+        var length = 7;
+
+        // Act
+        var actual = sut(length);
+
+        // Assert
+        expect(actual).equals(expected);
+    });
+});
+*/
 // =======================
 // start the server ======
 // =======================

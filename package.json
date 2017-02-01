@@ -1,12 +1,33 @@
 {
-  "name": "node-token-jwt",
-  "main": "server.js",
+  "name": "tokenauthenticationjwt",
+  "version": "1.0.0",
+  "description": "jwt with testing",
+  "main": "config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FLao/TokenAuthenticationJWT.git"
+  },
+  "author": "Francis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FLao/TokenAuthenticationJWT/issues"
+  },
+  "homepage": "https://github.com/FLao/TokenAuthenticationJWT#readme",
   "dependencies": {
     "body-parser": "^1.16.0",
-    "express": "^4.14.0",
+    "chai": "^3.5.0",
+    "express": "^4.14.1",
     "jsonwebtoken": "^7.2.1",
+    "mocha": "^3.2.0",
     "morgan": "^1.7.0",
     "mysql": "^2.13.0",
-    "sequelize": "^3.30.0"
+    "sequelize": "^3.30.1"
   }
 }
