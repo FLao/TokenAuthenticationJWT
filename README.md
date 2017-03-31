@@ -1,6 +1,6 @@
 # TokenAuthenticationJWT
 
-<h1>Token based authentication using json web token in JS</h1>
+<p>Token based authentication using json web token in JS</p>
 
 Instructions:
 <ol>
