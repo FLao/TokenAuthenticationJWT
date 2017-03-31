@@ -1,7 +1,7 @@
 # TokenAuthenticationJWT
 
 Instructions:
-
-1) npm install for dependancies
-<br>
-2) open using browser localhost:8080
+<ol>
+<li>npm install for dependancies</li>
+<li>open using browser localhost:8080</li>
+</ol>
